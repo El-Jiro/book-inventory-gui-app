@@ -17,4 +17,10 @@ l2.grid(row=0, column=2, padx=5, pady=8)
 l3.grid(row=1, pady=8)
 l4.grid(row=1, column=2, pady=8)
 
+#----------StringVars para los entries---------
+titulo_t = StringVar()
+autor_t = StringVar()
+año_t = StringVar()
+isbn_t = StringVar()
+
 window.mainloop()
