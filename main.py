@@ -35,8 +35,17 @@ autor.grid(row=0, column= 3, padx=8)
 año.grid(row=1, column=1, sticky=W)
 isbn.grid(row=1, column=3, sticky=W)
 
-#Usaremos un listbox para desplegar todas las entradas de la bd
-booklist = Listbox(window, height=20, width=35)
+#-------Usaremos un listbox para desplegar todas las entradas de la bd-----
+booklist = Listbox(window, height=20, width=40)
+#Para abarcar más de una fila o columna, especificaremos los argumebtos columnspan y rowspan en el método grid
 booklist.grid(row=2, column=0, columnspan=3, rowspan=6)
+
+#Creamos una scrollbar para poder desplazarnos por la lista cuando los registros llenen todo el espacio visible 
+sb = Scrollbar(window)
+sb.grid(row=2, column=3, rowspan=6, sticky=W)
+
+#Enlazamos ambos widgets
+booklist.configure(yscrollcommand=sb.set)
+sb.configure(command=booklist.yview)
 
 window.mainloop()
