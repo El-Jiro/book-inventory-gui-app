@@ -23,4 +23,16 @@ autor_t = StringVar()
 año_t = StringVar()
 isbn_t = StringVar()
 
+#-----Entries------
+titulo = Entry(window, width=30, textvariable=titulo_t)
+autor = Entry(window, width=30, textvariable=autor_t)
+año = Entry(window, textvariable=año_t)
+isbn = Entry(window, textvariable=isbn_t)
+
+
+titulo.grid(row=0, column=1, padx=8)
+autor.grid(row=0, column= 3, padx=8)
+año.grid(row=1, column=1, sticky=W)
+isbn.grid(row=1, column=3, sticky=W)
+
 window.mainloop()
