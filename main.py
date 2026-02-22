@@ -2,7 +2,7 @@ from tkinter import *
 
 window = Tk()
 #Definimos un tamaño fijo para la ventana y evitamos que el usuario puede redimensionarla
-window.geometry("500x400")
+window.geometry("500x415")
 window.resizable(False, False)
 window.title("Inventario de Libros")
 
@@ -34,5 +34,9 @@ titulo.grid(row=0, column=1, padx=8)
 autor.grid(row=0, column= 3, padx=8)
 año.grid(row=1, column=1, sticky=W)
 isbn.grid(row=1, column=3, sticky=W)
+
+#Usaremos un listbox para desplegar todas las entradas de la bd
+booklist = Listbox(window, height=20, width=35)
+booklist.grid(row=2, column=0, columnspan=3, rowspan=6)
 
 window.mainloop()
