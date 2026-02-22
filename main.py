@@ -42,10 +42,25 @@ booklist.grid(row=2, column=0, columnspan=3, rowspan=6)
 
 #Creamos una scrollbar para poder desplazarnos por la lista cuando los registros llenen todo el espacio visible 
 sb = Scrollbar(window)
-sb.grid(row=2, column=3, rowspan=6, sticky=W)
+sb.grid(row=2, column=3, rowspan=6, sticky=W, pady=8)
 
 #Enlazamos ambos widgets
 booklist.configure(yscrollcommand=sb.set)
 sb.configure(command=booklist.yview)
+
+#--------Botones para las distintas acciones---------------
+btn_view= Button(window, text="Ver todo", font=("Arial", 11), width=10)
+btn_search= Button(window, text="Buscar", font=("Arial", 11), width=10)
+btn_add = Button(window, text="Nuevo", font=("Arial", 11), width=10)
+btn_update = Button(window, text="Modificar",  font=("Arial", 11), width=10)
+btn_delete = Button(window, text="Eliminar",  font=("Arial", 11), width=10)
+btn_close = Button(window, text="Salir",  font=("Arial", 11), width=10)
+
+btn_view.grid(row=2, column=3)
+btn_search.grid(row=3, column=3,sticky=N)
+btn_add.grid(row=4, column=3, sticky=N)
+btn_update.grid(row=5, column=3, sticky=N)
+btn_delete.grid(row=6, column=3, sticky=N)
+btn_close.grid(row=7, column=3, sticky=N)
 
 window.mainloop()
