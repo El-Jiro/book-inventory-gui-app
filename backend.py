@@ -9,7 +9,6 @@ def connect() -> None:
     conn.commit()
     conn.close()
 
-
 def add_entry(titulo: str, autor: str, año: int, isbn: int)-> None:
 
     conn = sqlite3.connect("library.db")
@@ -17,7 +16,6 @@ def add_entry(titulo: str, autor: str, año: int, isbn: int)-> None:
     cursor.execute("INSERT INTO books VALUES (NULL, ?, ?, ?, ?)", (titulo, autor, año, isbn))
     conn.commit()
     conn.close()
-
 
 def view_entries() -> list:
 
@@ -39,6 +37,14 @@ def search_entry(titulo: str = "", autor: str ="", año: int = "", isbn: int="")
     conn.close()
     return data
 
+def update_entry(titulo: str, autor: str, año: int, isbn: int, id: int) -> None:
+    
+    conn = sqlite3.connect("library.db")
+    cursor = conn.cursor()
+    cursor.execute("UPDATE books SET titulo = ?, autor = ?, año = ?, isbn = ? WHERE id = ?", (titulo, autor, año, isbn, id))
+    conn.commit()
+    conn.close()
+
 def delete_entry(id: int) -> None:
 
     conn = sqlite3.connect("library.db")
@@ -47,11 +53,10 @@ def delete_entry(id: int) -> None:
     conn.commit()
     conn.close()
     
-
-
 connect()
 #add_entry("Cien Años de Soledad", "Gabriel García Márquez", 1985, 1135733462)
-delete_entry(5)
+#delete_entry(5)
+update_entry("Donde habitan los angeles", "Claudia Celís", 1997, 6532313502, 1)
 #print(search_entry(autor="Michael Ende"))
 print(view_entries())
 
