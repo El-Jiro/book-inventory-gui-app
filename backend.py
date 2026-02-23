@@ -18,7 +18,7 @@ def add_entry(titulo: str, autor: str, año: int, isbn: int)-> None:
     conn.commit()
     conn.close()
 
-def view_data() -> list:
+def view_entries() -> list:
 
     conn = sqlite3.connect("library.db")
     cursor = conn.cursor()
@@ -26,6 +26,5 @@ def view_data() -> list:
     data = cursor.fetchall()
     conn.close()
     return data
-    
 
 connect()
