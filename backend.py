@@ -18,5 +18,14 @@ def add_entry(titulo: str, autor: str, año: int, isbn: int)-> None:
     conn.commit()
     conn.close()
 
+def view_data() -> list:
+
+    conn = sqlite3.connect("library.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM books")
+    data = cursor.fetchall()
+    conn.close()
+    return data
+    
 
 connect()
