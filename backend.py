@@ -18,6 +18,7 @@ def add_entry(titulo: str, autor: str, año: int, isbn: int)-> None:
     conn.commit()
     conn.close()
 
+
 def view_entries() -> list:
 
     conn = sqlite3.connect("library.db")
@@ -27,7 +28,20 @@ def view_entries() -> list:
     conn.close()
     return data
 
+#Pasamos un string vacío como valor default para los argumentos, así el usuario puede pasar solo uno y no dará error
+def search_entry(titulo: str = "", autor: str ="", año: int = "", isbn: int="") -> tuple:
+
+    conn = sqlite3.connect("library.db")
+    cursor = conn.cursor()
+    #Uitlizamos el operador lógico OR para que realice la búsqueda con cualquiera de los cuatro campos de la tabla
+    cursor.execute("SELECT * FROM books WHERE titulo = ? OR autor = ? OR año = ? OR isbn = ?", (titulo, autor, año, isbn))
+    data = cursor.fetchall()
+    conn.close()
+    return data
+
+
 connect()
-add_entry("La Historia Interminable", "Michael Ende", 1979, 7332813562)
-print(view_entries())
+#add_entry("El Imperio Final", "Brandon Sanderson", 2008, 5132715462)
+print(search_entry(autor="Michael Ende"))
+#print(view_entries())
 
