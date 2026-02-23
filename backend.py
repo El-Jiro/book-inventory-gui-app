@@ -28,3 +28,6 @@ def view_entries() -> list:
     return data
 
 connect()
+add_entry("La Historia Interminable", "Michael Ende", 1979, 7332813562)
+print(view_entries())
+
