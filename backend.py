@@ -39,9 +39,19 @@ def search_entry(titulo: str = "", autor: str ="", año: int = "", isbn: int="")
     conn.close()
     return data
 
+def delete_entry(id: int) -> None:
+
+    conn = sqlite3.connect("library.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM books WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+    
+
 
 connect()
-#add_entry("El Imperio Final", "Brandon Sanderson", 2008, 5132715462)
-print(search_entry(autor="Michael Ende"))
-#print(view_entries())
+#add_entry("Cien Años de Soledad", "Gabriel García Márquez", 1985, 1135733462)
+delete_entry(5)
+#print(search_entry(autor="Michael Ende"))
+print(view_entries())
 
