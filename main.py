@@ -14,6 +14,15 @@ def show_data() -> None:
         #a insertar
         booklist.insert(END, r)
         
+#Creamos una función wrapper para search_entry, ya que en el argumento command del constructor de Button no podemos pasar 
+#directamente funciones con parámetros
+def search_command()-> None:
+    
+    booklist.delete(0, END)
+    #Llamamos a la función search_entry pasando como argumentos nuestros objetos StringVar 
+    rows = search_entry(titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get())
+    for r in rows:
+        booklist.insert(END, r)
 
 window = Tk()
 #Definimos un tamaño fijo para la ventana y evitamos que el usuario puede redimensionarla
@@ -52,7 +61,7 @@ isbn.grid(row=1, column=3, sticky=W)
 
 #-------Usaremos un listbox para desplegar todas las entradas de la bd-----
 booklist = Listbox(window, height=20, width=55)
-#Para abarcar más de una fila o columna, especificaremos los argumebtos columnspan y rowspan en el método grid
+#Para abarcar más de una fila o columna, especificaremos los argumentos columnspan y rowspan en el método grid
 booklist.grid(row=2, column=0, columnspan=3, rowspan=6, padx=8)
 
 #Creamos una scrollbar para poder desplazarnos por la lista cuando los registros llenen todo el espacio visible 
@@ -64,9 +73,9 @@ booklist.configure(yscrollcommand=sb.set)
 sb.configure(command=booklist.yview)
 
 #--------Botones para las distintas acciones---------------
-#Acoplamos la función al botón con el argumento show_data
-btn_view= Button(window, text="Ver todo", font=("Arial", 11), width=10, command=show_data)
-btn_search= Button(window, text="Buscar", font=("Arial", 11), width=10)
+
+btn_view= Button(window, text="Ver todo", font=("Arial", 11), width=10, command=show_data) #Acoplamos la función al botón con el argumento show_data
+btn_search= Button(window, text="Buscar", font=("Arial", 11), width=10, command=search_command)
 btn_add = Button(window, text="Nuevo", font=("Arial", 11), width=10)
 btn_update = Button(window, text="Modificar",  font=("Arial", 11), width=10)
 btn_delete = Button(window, text="Eliminar",  font=("Arial", 11), width=10)
