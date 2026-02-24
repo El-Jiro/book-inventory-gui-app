@@ -2,7 +2,7 @@ from tkinter import *
 from backend import *
 
 #Creamos una función que reciba los datos del backend y los muestre en nuestro Listbox
-def show_data() -> None:
+def view_command() -> None:
     #Antes que nada borramos todos los registros previos
     booklist.delete(0, END)
     #Obtenemos los registros de la tabla y los guardamos en rows
@@ -74,7 +74,7 @@ sb.configure(command=booklist.yview)
 
 #--------Botones para las distintas acciones---------------
 
-btn_view= Button(window, text="Ver todo", font=("Arial", 11), width=10, command=show_data) #Acoplamos la función al botón con el argumento show_data
+btn_view= Button(window, text="Ver todo", font=("Arial", 11), width=10, command=view_command) #Acoplamos la función al botón con el argumento show_data
 btn_search= Button(window, text="Buscar", font=("Arial", 11), width=10, command=search_command)
 btn_add = Button(window, text="Nuevo", font=("Arial", 11), width=10)
 btn_update = Button(window, text="Modificar",  font=("Arial", 11), width=10)
