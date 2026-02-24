@@ -25,8 +25,11 @@ def search_command() -> None:
         booklist.insert(END, r)
 
 def add_command() -> None:
+    
     add_entry(titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get())
-    view_command()
+    booklist.delete(0, END)
+    booklist.insert(0, (titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get()))
+    
 
 window = Tk()
 #Definimos un tamaño fijo para la ventana y evitamos que el usuario puede redimensionarla
