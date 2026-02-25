@@ -1,6 +1,17 @@
 from tkinter import *
 from backend import *
 
+
+#Creamos una función que recupere los datos de la fila seleccionada en el Lsitbox. Ya que será llamada mediante el evento de un widget,
+#deberá llevar un parámetro llamado event
+def get_selected_row(event: Event):
+    #llamamos al método curselection de booklist y lo guardamos en index para obtener el índice del elemento seleccionado
+    index = booklist.curselection()[0]
+    #Llamamos al método get, le pasamos index como argumento y guardamos el resultado en index
+    selected_row = booklist.get(index)
+    #devolvemos el elemento seleccionado 
+    return selected_row 
+
 #Creamos una función que reciba los datos del backend y los muestre en nuestro Listbox
 def view_command() -> None:
     #Antes que nada borramos todos los registros previos
@@ -13,7 +24,7 @@ def view_command() -> None:
         #el elemento, en este caso END, es decir cada nuevo elemento se colocará al final de la lista, y el elemento
         #a insertar
         booklist.insert(END, r)
-        
+
 #Creamos una función wrapper para search_entry, ya que en el argumento command del constructor de Button no podemos pasar 
 #directamente funciones con parámetros
 def search_command() -> None:
@@ -24,12 +35,13 @@ def search_command() -> None:
     for r in rows:
         booklist.insert(END, r)
 
+#Hacemos lo mismo para add_command
 def add_command() -> None:
     
     add_entry(titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get())
+    #Limpiamos el Listbox y mostramos el nuevo registro 
     booklist.delete(0, END)
     booklist.insert(0, (titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get()))
-    
 
 window = Tk()
 #Definimos un tamaño fijo para la ventana y evitamos que el usuario puede redimensionarla
@@ -78,6 +90,12 @@ sb.grid(row=2, column=3, rowspan=6, sticky=W, pady=8, padx= 5)
 #Enlazamos ambos widgets
 booklist.configure(yscrollcommand=sb.set)
 sb.configure(command=booklist.yview)
+
+#LLamamos a la función get_selected_row de booklist con el método bind, este recibe dos argumentos: el tipo de evento entre dos pares 
+#de corchetes angulares <>, en este caso ListboxSelect y la función que será ejecutada cuando se dispare dicho evento, pero solo el nombre
+#de la función sin invocarla
+booklist.bind("<<ListboxSelect>>", get_selected_row)
+
 
 #--------Botones para las distintas acciones---------------
 
