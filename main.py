@@ -1,7 +1,6 @@
-from tkinter import *
 from tkinter import messagebox
+from tkinter import *
 from backend import *
-
 
 #Creamos una función que recupere los datos de la fila seleccionada en el Lsitbox. Ya que será llamada mediante el evento de un widget,
 #deberá llevar un parámetro llamado event
@@ -41,9 +40,11 @@ def search_command() -> None:
 def add_command() -> None:
     
     add_entry(titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get())
-    #Limpiamos el Listbox y mostramos el nuevo registro 
-    booklist.delete(0, END)
-    booklist.insert(0, (titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get()))
+    #Mostramos un cuadro de diálogo con el nuevo registro
+    messagebox.showinfo("Registro Añadido", "Se ha añadido correctamente el registro con la siguiente información: "
+                        + f"{(titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get())}")
+    #Mostramos todos los registros
+    view_command()
 
 def delete_command() -> None:
     #Enviamos un mensaje de confirmación antes de borrar el registro
@@ -54,7 +55,8 @@ def delete_command() -> None:
         delete_entry(id)
         #Enviamos otro mensaje confirmando la eliminación
         messagebox.showinfo("Registro Eliminado", f"Se ha eliminado correctamente el registro con la siguiente información: {selected_row}")
-    
+        #Recargamos la lista
+        view_command()
 window = Tk()
 #Definimos un tamaño fijo para la ventana y evitamos que el usuario puede redimensionarla
 window.geometry("550x410")
