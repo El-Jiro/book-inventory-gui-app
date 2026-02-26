@@ -1,16 +1,18 @@
 from tkinter import *
+from tkinter import messagebox
 from backend import *
 
 
 #Creamos una función que recupere los datos de la fila seleccionada en el Lsitbox. Ya que será llamada mediante el evento de un widget,
 #deberá llevar un parámetro llamado event
-def get_selected_row(event: Event):
+def get_selected_row(event: Event) -> None:
+    #Creamos una variable global para guardar la fila seleccionada, se define como una variable normal precedida por la 
+    # palabra reservada global
+    global selected_row
     #llamamos al método curselection de booklist y lo guardamos en index para obtener el índice del elemento seleccionado
     index = booklist.curselection()[0]
     #Llamamos al método get, le pasamos index como argumento y guardamos el resultado en index
     selected_row = booklist.get(index)
-    #devolvemos el elemento seleccionado 
-    return selected_row 
 
 #Creamos una función que reciba los datos del backend y los muestre en nuestro Listbox
 def view_command() -> None:
@@ -43,6 +45,16 @@ def add_command() -> None:
     booklist.delete(0, END)
     booklist.insert(0, (titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get()))
 
+def delete_command() -> None:
+    #Enviamos un mensaje de confirmación antes de borrar el registro
+    respuesta = messagebox.askyesno("Confirmar Eliminación", "¡Esta acción es irreversible! ¿Desea continuar?")
+    #Si la respuesta es positiva, eliminamos el registro
+    if respuesta:
+        id: int = selected_row[0]
+        delete_entry(id)
+        #Enviamos otro mensaje confirmando la eliminación
+        messagebox.showinfo("Registro Eliminado", f"Se ha eliminado correctamente el registro con la siguiente información: {selected_row}")
+    
 window = Tk()
 #Definimos un tamaño fijo para la ventana y evitamos que el usuario puede redimensionarla
 window.geometry("550x410")
@@ -103,7 +115,7 @@ btn_view= Button(window, text="Ver todo", font=("Arial", 11), width=10, command=
 btn_search= Button(window, text="Buscar", font=("Arial", 11), width=10, command=search_command)
 btn_add = Button(window, text="Nuevo", font=("Arial", 11), width=10, command=add_command)
 btn_update = Button(window, text="Modificar",  font=("Arial", 11), width=10)
-btn_delete = Button(window, text="Eliminar",  font=("Arial", 11), width=10)
+btn_delete = Button(window, text="Eliminar",  font=("Arial", 11), width=10, command=delete_command)
 btn_close = Button(window, text="Salir",  font=("Arial", 11), width=10)
 
 btn_view.grid(row=2, column=3)
