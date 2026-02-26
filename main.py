@@ -72,16 +72,21 @@ def update_command() -> None:
         view_command()
 
 def delete_command() -> None:
-    #Enviamos un mensaje de confirmación antes de borrar el registro
-    respuesta = messagebox.askyesno("Confirmar Eliminación", "¡Esta acción es irreversible! ¿Desea continuar?")
-    #Si la respuesta es positiva, eliminamos el registro
-    if respuesta:
-        id: int = selected_row[0]
-        delete_entry(id)
-        #Enviamos otro mensaje confirmando la eliminación
-        messagebox.showinfo("Registro Eliminado", f"Se ha eliminado correctamente el registro con la siguiente información: {selected_row}")
-        #Recargamos la lista
-        view_command()
+    
+    #Verificamos si hay algún registro de la lista seleccionado,si no hay ninguno enviamos una advertencia
+    if not booklist.curselection():
+        messagebox.showwarning("Selección Inválida", "No se ha seleccionado ningún registro para eliminar")
+    else:
+        #Enviamos un mensaje de confirmación antes de borrar el registro
+        respuesta = messagebox.askyesno("Confirmar Eliminación", "¡Esta acción es irreversible! ¿Desea continuar?")
+        #Si la respuesta es positiva, eliminamos el registro
+        if respuesta:
+            id: int = selected_row[0]
+            delete_entry(id)
+            #Enviamos otro mensaje confirmando la eliminación
+            messagebox.showinfo("Registro Eliminado", f"Se ha eliminado correctamente el registro con la siguiente información: {selected_row}")
+            #Recargamos la lista
+            view_command()
 
 window = Tk()
 #Definimos un tamaño fijo para la ventana y evitamos que el usuario puede redimensionarla
