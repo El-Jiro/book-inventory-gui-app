@@ -56,6 +56,21 @@ def add_command() -> None:
     #Mostramos todos los registros
     view_command()
 
+def update_command() -> None:
+    #Evaluamos cada campo individualmente para comprobar que todos estén vacíos usando los operadores lógicos and y or 
+    #y guardamos el resultado en una variable
+    all_fields_empty: bool = not titulo.get() and not autor.get() and not año.get() and not isbn.get()
+
+    #Si todos están vacíos mandamos una advertencia al usuario indicando que no ha seleccionado ningún registro
+    if all_fields_empty:
+        messagebox.showwarning("Selección Inválida", "No se ha seleccionado ningún registro para actualizar")
+    else: 
+        #De lo contrario ejecutamos la actualización en la base de datos
+        update_entry(id=selected_row[0], titulo=selected_row[1], autor=selected_row[2], año=selected_row[3], isbn=selected_row[4])
+        messagebox.showinfo("Actualización Exitosa", f"Se ha actualizado correctamente el registro con la información: ${selected_row}")
+        #Recargamos la lista
+        view_command()
+
 def delete_command() -> None:
     #Enviamos un mensaje de confirmación antes de borrar el registro
     respuesta = messagebox.askyesno("Confirmar Eliminación", "¡Esta acción es irreversible! ¿Desea continuar?")
@@ -67,6 +82,7 @@ def delete_command() -> None:
         messagebox.showinfo("Registro Eliminado", f"Se ha eliminado correctamente el registro con la siguiente información: {selected_row}")
         #Recargamos la lista
         view_command()
+
 window = Tk()
 #Definimos un tamaño fijo para la ventana y evitamos que el usuario puede redimensionarla
 window.geometry("550x410")
@@ -126,7 +142,7 @@ booklist.bind("<<ListboxSelect>>", get_selected_row)
 btn_view= Button(window, text="Ver todo", font=("Arial", 11), width=10, command=view_command) #Acoplamos la función al botón con el argumento show_data
 btn_search= Button(window, text="Buscar", font=("Arial", 11), width=10, command=search_command)
 btn_add = Button(window, text="Nuevo", font=("Arial", 11), width=10, command=add_command)
-btn_update = Button(window, text="Modificar",  font=("Arial", 11), width=10)
+btn_update = Button(window, text="Modificar",  font=("Arial", 11), width=10, command=update_command)
 btn_delete = Button(window, text="Eliminar",  font=("Arial", 11), width=10, command=delete_command)
 btn_close = Button(window, text="Salir",  font=("Arial", 11), width=10)
 
