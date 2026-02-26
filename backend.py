@@ -53,7 +53,7 @@ def delete_entry(id: int) -> None:
     conn.commit()
     conn.close()
     
-#connect()
+connect()
 #add_entry("Cien Años de Soledad", "Gabriel García Márquez", 1985, 1135733462)
 #delete_entry(5)
 #update_entry("Donde habitan los angeles", "Claudia Celís", 1997, 6532313502, 1)

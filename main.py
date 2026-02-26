@@ -84,6 +84,12 @@ def delete_command() -> None:
             #Recargamos la lista
             view_command()
 
+def close_app() -> None:
+    
+    respuesta: bool = messagebox.askokcancel("Confirmar salida","¿Salir de la aplicación? Se perderán todos los datos no guardados")
+    if respuesta: 
+        window.destroy()
+
 window = Tk()
 #Definimos un tamaño fijo para la ventana y evitamos que el usuario puede redimensionarla
 window.geometry("550x410")
@@ -145,7 +151,7 @@ btn_search= Button(window, text="Buscar", font=("Arial", 11), width=10, command=
 btn_add = Button(window, text="Nuevo", font=("Arial", 11), width=10, command=add_command)
 btn_update = Button(window, text="Modificar",  font=("Arial", 11), width=10, command=update_command)
 btn_delete = Button(window, text="Eliminar",  font=("Arial", 11), width=10, command=delete_command)
-btn_close = Button(window, text="Salir",  font=("Arial", 11), width=10)
+btn_close = Button(window, text="Salir",  font=("Arial", 11), width=10, command=close_app)
 
 btn_view.grid(row=2, column=3)
 btn_search.grid(row=3, column=3,sticky=N)
