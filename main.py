@@ -57,16 +57,12 @@ def add_command() -> None:
     view_command()
 
 def update_command() -> None:
-    #Evaluamos cada campo individualmente para comprobar que todos estén vacíos usando los operadores lógicos and y or 
-    #y guardamos el resultado en una variable
-    all_fields_empty: bool = not titulo.get() and not autor.get() and not año.get() and not isbn.get()
-
-    #Si todos están vacíos mandamos una advertencia al usuario indicando que no ha seleccionado ningún registro
-    if all_fields_empty:
+    #Si no se ha seleccionado ningún registro, enviamos una advertencia
+    if not booklist.curselection():
         messagebox.showwarning("Selección Inválida", "No se ha seleccionado ningún registro para actualizar")
     else: 
         #De lo contrario ejecutamos la actualización en la base de datos
-        update_entry(id=selected_row[0], titulo=selected_row[1], autor=selected_row[2], año=selected_row[3], isbn=selected_row[4])
+        update_entry(id=selected_row[0], titulo= titulo_t.get() , autor=autor_t.get(), año=año_t.get(), isbn=isbn_t.get())
         messagebox.showinfo("Actualización Exitosa", f"Se ha actualizado correctamente el registro con la información: ${selected_row}")
         #Recargamos la lista
         view_command()
