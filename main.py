@@ -2,7 +2,7 @@ from tkinter import messagebox
 from tkinter import *
 from backend import *
 
-#Creamos una función que recupere los datos de la fila seleccionada en el Lsitbox. Ya que será llamada mediante el evento de un widget,
+#Creamos una función que recupere los datos de la fila seleccionada en el Listbox. Ya que será llamada mediante el evento de un widget,
 #deberá llevar un parámetro llamado event
 def get_selected_row(event: Event) -> None:
     #Creamos una variable global para guardar la fila seleccionada, se define como una variable normal precedida por la 
@@ -12,6 +12,16 @@ def get_selected_row(event: Event) -> None:
     index = booklist.curselection()[0]
     #Llamamos al método get, le pasamos index como argumento y guardamos el resultado en index
     selected_row = booklist.get(index)
+    
+    #Borramos cualquier valor previo que pudieran tener los entries y lo reemplazamos con los valores del registro seleccionado
+    titulo.delete(0, END)
+    titulo.insert(0, selected_row[1]) #Empezamos por el índice 1 ya que el 0 corresponde al id y este no debe ser manipulado por el usuario
+    autor.delete(0, END)
+    autor.insert(0, selected_row[2])
+    año.delete(0, END)
+    año.insert(0, selected_row[3])
+    isbn.delete(0, END)
+    isbn.insert(0, selected_row[4])
 
 #Creamos una función que reciba los datos del backend y los muestre en nuestro Listbox
 def view_command() -> None:
@@ -69,8 +79,8 @@ l2 = Label(window, font=("Arial", 10), text="Autor")
 l3 = Label(window, font=("Arial", 10), text="Año")
 l4 = Label(window, font=("Arial", 10), text="ISBN")
 
-l1.grid(padx=5, pady=8)
-l2.grid(row=0, column=2, padx=5, pady=8)
+l1.grid(padx=0, pady=8)
+l2.grid(row=0, column=2, padx=0, pady=8)
 l3.grid(row=1, pady=8)
 l4.grid(row=1, column=2, pady=8)
 
