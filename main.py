@@ -23,6 +23,18 @@ def get_selected_row(event: Event) -> None:
     isbn.delete(0, END)
     isbn.insert(0, selected_row[4])
 
+#Creamos una función para limitar el año a caracteres numéricos y cuatro dígitos
+def validate_year(new_val: str) -> bool:
+    
+    if new_val == "": 
+        return True #Permite borrar completamente el valor
+    elif not new_val.isdigit():
+        return False #Bloquea caracteres no-numéricos
+    elif len(new_val) > 4:
+        return False #Limitamos el string a cuatro dígitos
+    
+    return True
+
 #Creamos una función que reciba los datos del backend y los muestre en nuestro Listbox
 def view_command() -> None:
     #Antes que nada borramos todos los registros previos
@@ -114,9 +126,16 @@ año_t = StringVar()
 isbn_t = StringVar()
 
 #-----Entries------
+
+#Creamos una tupla, en su primer elemento usamos window.register para convertir nuestra función a un comando de tcl y en el segundo pasamos
+#un string con el placeholder %P, que sirve para recibir el valor futuro introducido por el usuario
+vcmd: tuple  = (window.register(validate_year), "%P")
+
 titulo = Entry(window, width=30, textvariable=titulo_t)
 autor = Entry(window, width=30, textvariable=autor_t)
-año = Entry(window, textvariable=año_t)
+#En el entry del año pasamos el atributo de validatecommand con el valor de nuestra tupla y especificamos validate="key" para que se ejecute
+#la validación cada vez que el usuario presione una tecla para escribir
+año = Entry(window, textvariable=año_t, validatecommand = vcmd, validate="key")
 isbn = Entry(window, textvariable=isbn_t)
 
 
