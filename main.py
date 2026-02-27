@@ -5,23 +5,27 @@ from backend import *
 #Creamos una función que recupere los datos de la fila seleccionada en el Listbox. Ya que será llamada mediante el evento de un widget,
 #deberá llevar un parámetro llamado event
 def get_selected_row(event: Event) -> None:
-    #Creamos una variable global para guardar la fila seleccionada, se define como una variable normal precedida por la 
-    # palabra reservada global
-    global selected_row
-    #llamamos al método curselection de booklist y lo guardamos en index para obtener el índice del elemento seleccionado
-    index = booklist.curselection()[0]
-    #Llamamos al método get, le pasamos index como argumento y guardamos el resultado en index
-    selected_row = booklist.get(index)
-    
-    #Borramos cualquier valor previo que pudieran tener los entries y lo reemplazamos con los valores del registro seleccionado
-    titulo.delete(0, END)
-    titulo.insert(0, selected_row[1]) #Empezamos por el índice 1 ya que el 0 corresponde al id y este no debe ser manipulado por el usuario
-    autor.delete(0, END)
-    autor.insert(0, selected_row[2])
-    año.delete(0, END)
-    año.insert(0, selected_row[3])
-    isbn.delete(0, END)
-    isbn.insert(0, selected_row[4])
+    try:
+        #Creamos una variable global para guardar la fila seleccionada, se define como una variable normal precedida por la 
+        # palabra reservada global
+        global selected_row
+        #llamamos al método curselection de booklist y lo guardamos en index para obtener el índice del elemento seleccionado
+        index = booklist.curselection()[0]
+        #Llamamos al método get, le pasamos index como argumento y guardamos el resultado en index
+        selected_row = booklist.get(index)
+        
+        #Borramos cualquier valor previo que pudieran tener los entries y lo reemplazamos con los valores del registro seleccionado
+        titulo.delete(0, END)
+        titulo.insert(0, selected_row[1]) #Empezamos por el índice 1 ya que el 0 corresponde al id y este no debe ser manipulado por el usuario
+        autor.delete(0, END)
+        autor.insert(0, selected_row[2])
+        año.delete(0, END)
+        año.insert(0, selected_row[3])
+        isbn.delete(0, END)
+        isbn.insert(0, selected_row[4])
+        
+    except IndexError:
+        pass
 
 #Creamos una función para limitar el año a caracteres numéricos y cuatro dígitos
 def validate_year(new_val: str) -> bool:
