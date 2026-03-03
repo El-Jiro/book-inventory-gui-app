@@ -39,6 +39,18 @@ def validate_year(new_val: str) -> bool:
     
     return True
 
+#Repetimos el procedimiento para el isbn
+def validate_isbn(new_val: str): 
+    
+    if new_val == "": 
+        return True #Permite borrar completamente el valor
+    elif not new_val.isdigit():
+        return False #Bloquea caracteres no-numéricos
+    elif len(new_val) > 10:
+        return False #Limitamos el string a diez dígitos
+    
+    return True
+
 #Creamos una función que reciba los datos del backend y los muestre en nuestro Listbox
 def view_command() -> None:
     #Antes que nada borramos todos los registros previos
@@ -133,14 +145,15 @@ isbn_t = StringVar()
 
 #Creamos una tupla, en su primer elemento usamos window.register para convertir nuestra función a un comando de tcl y en el segundo pasamos
 #un string con el placeholder %P, que sirve para recibir el valor futuro introducido por el usuario
-vcmd: tuple  = (window.register(validate_year), "%P")
+vcmd1: tuple  = (window.register(validate_year), "%P")
+vcmd2: tuple = (window.register(validate_isbn), "%P")
 
 titulo = Entry(window, width=30, textvariable=titulo_t)
 autor = Entry(window, width=30, textvariable=autor_t)
 #En el entry del año pasamos el atributo de validatecommand con el valor de nuestra tupla y especificamos validate="key" para que se ejecute
 #la validación cada vez que el usuario presione una tecla para escribir
-año = Entry(window, textvariable=año_t, validatecommand = vcmd, validate="key")
-isbn = Entry(window, textvariable=isbn_t)
+año = Entry(window, textvariable=año_t, validatecommand = vcmd1, validate="key")
+isbn = Entry(window, textvariable=isbn_t, validatecommand=vcmd2, validate="key")
 
 
 titulo.grid(row=0, column=1, padx=8, sticky=W)
