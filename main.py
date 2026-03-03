@@ -1,6 +1,9 @@
+import re
 from tkinter import messagebox
 from tkinter import *
 from backend import *
+
+patron = re.compile(r"^[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+(?:[ '-][A-Za-zÁÉÍÓÚáéíóúÑñÜü]+)*$")
 
 #Creamos una función que recupere los datos de la fila seleccionada en el Listbox. Ya que será llamada mediante el evento de un widget,
 #deberá llevar un parámetro llamado event
@@ -40,7 +43,7 @@ def validate_year(new_val: str) -> bool:
     return True
 
 #Repetimos el procedimiento para el isbn
-def validate_isbn(new_val: str): 
+def validate_isbn(new_val: str) -> bool: 
     
     if new_val == "": 
         return True #Permite borrar completamente el valor
@@ -51,6 +54,10 @@ def validate_isbn(new_val: str):
     
     return True
 
+
+#Ahora hacemos una para validar el nombre del autor:
+def validate_author(nombre):
+    return bool(patron.match(nombre))
 #Creamos una función que reciba los datos del backend y los muestre en nuestro Listbox
 def view_command() -> None:
     #Antes que nada borramos todos los registros previos
@@ -77,17 +84,25 @@ def search_command() -> None:
 #Hacemos lo mismo para add_command
 def add_command() -> None:
     
-    add_entry(titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get())
+    if not validate_author(autor_t.get()):
+        messagebox.showerror("Autor Inválido", 
+                            "El nombre del autor sólo puede contener letras y ciertos caracteres especiales (-, ', `, ü, ñ), también debe tener al menos 3 caracteres de largo")
+    else: 
+        add_entry(titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get())
     #Mostramos un cuadro de diálogo con el nuevo registro
-    messagebox.showinfo("Registro Añadido", "Se ha añadido correctamente el registro con la siguiente información: "
+        messagebox.showinfo("Registro Añadido", "Se ha añadido correctamente el registro con la siguiente información: "
                         + f"{(titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get())}")
-    #Mostramos todos los registros
-    view_command()
+        #Mostramos todos los registros
+        view_command()
+    
 
 def update_command() -> None:
     #Si no se ha seleccionado ningún registro, enviamos una advertencia
     if not booklist.curselection():
         messagebox.showwarning("Selección Inválida", "No se ha seleccionado ningún registro para actualizar")
+    elif not validate_author(autor_t.get()):
+        messagebox.showerror("Autor Inválido", 
+                            "El nombre del autor sólo puede contener letras y ciertos caracteres especiales (-, ', `, ü, ñ), también debe tener al menos 3 caracteres de largo")
     else: 
         #De lo contrario ejecutamos la actualización en la base de datos
         update_entry(id=selected_row[0], titulo= titulo_t.get() , autor=autor_t.get(), año=año_t.get(), isbn=isbn_t.get())
