@@ -177,18 +177,23 @@ año.grid(row=1, column=1, sticky=W)
 isbn.grid(row=1, column=3, sticky=W)
 
 #-------Usaremos un listbox para desplegar todas las entradas de la bd-----
-booklist = Listbox(window, height=20, width=55)
+booklist = Listbox(window, height=18, width=55)
 #Para abarcar más de una fila o columna, especificaremos los argumentos columnspan y rowspan en el método grid
 booklist.grid(row=2, column=0, columnspan=3, rowspan=6, padx=8)
 
-#Creamos una scrollbar para poder desplazarnos por la lista cuando los registros llenen todo el espacio visible 
-sb = Scrollbar(window)
-sb.grid(row=2, column=3, rowspan=6, sticky=W, pady=8, padx= 5)
+#Creamos una scrollbar vertical para poder desplazarnos por la lista cuando los registros llenen todo el espacio visible 
+sby = Scrollbar(window)
+sby.grid(row=2, column=3, rowspan=6, sticky=W, pady=8, padx= 5)
 
+#Creamos otra scrollbar horizontal para cuando se corten los datos de un libro concreto
+sbx = Scrollbar(window, orient="horizontal")
+sbx.grid(row=10, column=1, columnspan=2, pady=7)
 #Enlazamos ambos widgets
-booklist.configure(yscrollcommand=sb.set)
-sb.configure(command=booklist.yview)
+booklist.configure(yscrollcommand=sby.set)
+sby.configure(command=booklist.yview)
 
+booklist.configure(xscrollcommand=sbx.set)
+sbx.configure(command=booklist.xview)
 #LLamamos a la función get_selected_row de booklist con el método bind, este recibe dos argumentos: el tipo de evento entre dos pares 
 #de corchetes angulares <>, en este caso ListboxSelect y la función que será ejecutada cuando se dispare dicho evento, pero solo el nombre
 #de la función sin invocarla
