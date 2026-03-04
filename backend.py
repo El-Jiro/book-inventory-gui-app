@@ -22,13 +22,13 @@ class Database:
         # ahora sólo tenemos que referirnos a ellos como atributos de la clase 
         self.cursor.execute("INSERT INTO books VALUES (NULL, ?, ?, ?, ?)", (titulo, autor, año, isbn))
         self.conn.commit()
-        self.conn.close()
+    
 
     def view_entries(self) -> list:
 
         self.cursor.execute("SELECT * FROM books")
         data = self.cursor.fetchall()
-        self.conn.close()
+        
         return data
 
     #Pasamos un string vacío como valor default para los argumentos, así el usuario puede pasar solo uno y no dará error
@@ -37,20 +37,22 @@ class Database:
         #Uitlizamos el operador lógico OR para que realice la búsqueda con cualquiera de los cuatro campos de la tabla
         self.cursor.execute("SELECT * FROM books WHERE titulo = ? OR autor = ? OR año = ? OR isbn = ?", (titulo, autor, año, isbn))
         data = self.cursor.fetchall()
-        self.conn.close()
-        
+
         return data
 
     def update_entry(self, titulo: str, autor: str, año: int, isbn: int, id: int) -> None:
         
         self.cursor.execute("UPDATE books SET titulo = ?, autor = ?, año = ?, isbn = ? WHERE id = ?", (titulo, autor, año, isbn, id))
         self.conn.commit()
-        self.conn.close()
 
     def delete_entry(self, id: int) -> None:
 
         self.cursor.execute("DELETE FROM books WHERE id = ?", (id,))
         self.conn.commit()
+
+    #Para cerrar nuestra conexión, sobreescribiremos el método del, que contrario a init, es invocado cuando se destruye el objeto,
+    #lo cual generalmente es justo antes de detener la ejecución del script
+    def __del__(self):
         self.conn.close()
     
 
