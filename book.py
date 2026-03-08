@@ -48,3 +48,8 @@ class Libro:
     @isbn.setter
     def isbn(self: Self, valor: int) -> None:
         self.__isbn = valor
+
+    def __str__(self)-> str:
+         return f"({self.id}, {self.titulo}, {self.autor}, {self.año}, {self.isbn})"
+    def __repr__(self: Self) -> str:
+        return f"Libro(id={self.id} titulo='{self.titulo}', autor='${self.autor}', año={self.año}, isbn={self.isbn})"
