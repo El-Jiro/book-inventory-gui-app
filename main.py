@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import messagebox
 #Cambiamos el import para usar sólo la clase Database en vez de todas las funciones
 from backend import Database
+from book import Libro
 
 """
 -----------------------Variables y objetos globales------------------------------
@@ -89,10 +90,17 @@ def view_command() -> None:
 #Creamos una función wrapper para search_entry, ya que en el argumento command del constructor de Button no podemos pasar 
 #directamente funciones con parámetros
 def search_command() -> None:
-    
+
+    #Creamos un objeto de tipo libro y asignamos el texto los entries como valor a sus atributos
+    libro = Libro()
+    libro.titulo = titulo_t.get()
+    libro.autor = autor_t.get()
+    libro.año = año_t.get()
+    libro.isbn = isbn_t.get()
+
     booklist.delete(0, END)
     #Llamamos a la función search_entry pasando como argumentos nuestros objetos StringVar 
-    rows = db.search_entry(titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get())
+    rows = db.search_entry(libro)
     for r in rows:
         booklist.insert(END, r)
 
