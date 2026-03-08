@@ -111,10 +111,17 @@ def add_command() -> None:
         messagebox.showerror("Autor Inválido", 
                             "El nombre del autor sólo puede contener letras y ciertos caracteres especiales (-, ', `, ü, ñ), también debe tener al menos 3 caracteres de largo")
     else: 
-        db.add_entry(titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get())
-    #Mostramos un cuadro de diálogo con el nuevo registro
-        messagebox.showinfo("Registro Añadido", "Se ha añadido correctamente el registro con la siguiente información: "
-                        + f"{(titulo_t.get(), autor_t.get(), año_t.get(), isbn_t.get())}")
+        libro = Libro()
+        libro.titulo = titulo_t.get()
+        libro.autor = autor_t.get()
+        libro.año = año_t.get()
+        libro.isbn = isbn_t.get()
+
+        print(libro)
+
+        db.add_entry(libro)
+        #Mostramos un cuadro de diálogo con el nuevo registro
+        messagebox.showinfo("Registro Añadido", "Se ha añadido correctamente el registro con la siguiente información: "+ f"{libro}")
         #Mostramos todos los registros
         view_command()
     

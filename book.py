@@ -8,6 +8,12 @@ class Libro:
     __año: int
     __isbn: int
 
+    def __init__(self):
+        self.__id = None
+        self.__titulo = ""
+        self.__autor = ""
+        self.año = None
+        self.isbn = None
 
     @property
     def id(self: Self) -> int:
@@ -50,6 +56,6 @@ class Libro:
         self.__isbn = valor
 
     def __str__(self)-> str:
-         return f"({self.id}, {self.titulo}, {self.autor}, {self.año}, {self.isbn})"
+        return f"({self.id}, {self.titulo}, {self.autor}, {self.año}, {self.isbn})"
     def __repr__(self: Self) -> str:
         return f"Libro(id={self.id} titulo='{self.titulo}', autor='${self.autor}', año={self.año}, isbn={self.isbn})"
