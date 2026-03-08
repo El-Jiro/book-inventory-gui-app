@@ -133,11 +133,22 @@ def update_command() -> None:
         messagebox.showerror("Autor Inválido", 
                             "El nombre del autor sólo puede contener letras y ciertos caracteres especiales (-, ', `, ü, ñ), también debe tener al menos 3 caracteres de largo")
     else: 
+
+        libro = Libro()
+        libro.id = selected_row[0]
+        libro.titulo = titulo_t.get() 
+        libro.autor = autor_t.get()
+        libro.año = año_t.get()
+        libro.isbn=isbn_t.get()
+
+        print(libro)
+
         #De lo contrario ejecutamos la actualización en la base de datos
-        db.update_entry(id=selected_row[0], titulo= titulo_t.get() , autor=autor_t.get(), año=año_t.get(), isbn=isbn_t.get())
+        db.update_entry(libro)
         messagebox.showinfo("Actualización Exitosa", f"Se ha actualizado correctamente el registro con la información: ${selected_row}")
         #Recargamos la lista
         view_command()
+        
 
 def delete_command() -> None:
     
