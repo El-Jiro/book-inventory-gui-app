@@ -1,6 +1,5 @@
 from typing import Self
 
-
 class Libro:
 
     __id: int
@@ -9,19 +8,15 @@ class Libro:
     __año: int
     __isbn: int
 
-    def __init__(self, titulo: str, autor: str, año: int, isbn:int)->None:
-        self.__titulo = titulo
-        self.__autor = autor
-        self.__año = año
-        self.__isbn = isbn
-
-    @classmethod
-    def con_id(cls, id: int, titulo: str, autor: str, año: int, isbn: int) -> Self:
-        pass
 
     @property
     def id(self: Self) -> int:
         return self.__id
+    
+    @id.setter
+    def id(self: Self, id: int) -> None:
+        self.__id = id
+
     @property
     def titulo(self: Self) -> str:
         return self.__titulo

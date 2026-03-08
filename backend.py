@@ -1,4 +1,5 @@
 import sqlite3
+from book import Libro
 
 class Database:
 
@@ -16,11 +17,11 @@ class Database:
         self.cursor.execute("CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY, titulo TEXT, autor TEXT, año INTEGER, isbn INTEGER)")
         self.conn.commit()
 
-    def add_entry(self, titulo: str, autor: str, año: int, isbn: int)-> None:
+    def add_entry(self, libro: Libro)-> None:
 
         #Eliminamos las declaraciones de conn y cursor, puesto que ya están definidos en el constructor, 
         # ahora sólo tenemos que referirnos a ellos como atributos de la clase 
-        self.cursor.execute("INSERT INTO books VALUES (NULL, ?, ?, ?, ?)", (titulo, autor, año, isbn))
+        self.cursor.execute("INSERT INTO books VALUES (NULL, ?, ?, ?, ?)", (libro.titulo, libro.autor, libro.año, libro.isbn))
         self.conn.commit()
     
 
@@ -32,17 +33,17 @@ class Database:
         return data
 
     #Pasamos un string vacío como valor default para los argumentos, así el usuario puede pasar solo uno y no dará error
-    def search_entry(self, titulo: str = "", autor: str ="", año: int = "", isbn: int="") -> tuple:
+    def search_entry(self, libro: Libro) -> tuple:
 
         #Uitlizamos el operador lógico OR para que realice la búsqueda con cualquiera de los cuatro campos de la tabla
-        self.cursor.execute("SELECT * FROM books WHERE titulo = ? OR autor = ? OR año = ? OR isbn = ?", (titulo, autor, año, isbn))
+        self.cursor.execute("SELECT * FROM books WHERE titulo = ? OR autor = ? OR año = ? OR isbn = ?", (libro.titulo, libro.autor, libro.año, libro.isbn))
         data = self.cursor.fetchall()
 
         return data
 
-    def update_entry(self, titulo: str, autor: str, año: int, isbn: int, id: int) -> None:
+    def update_entry(self, libro: Libro) -> None:
         
-        self.cursor.execute("UPDATE books SET titulo = ?, autor = ?, año = ?, isbn = ? WHERE id = ?", (titulo, autor, año, isbn, id))
+        self.cursor.execute("UPDATE books SET titulo = ?, autor = ?, año = ?, isbn = ? WHERE id = ?", (libro.titulo, libro.autor, libro.año, libro.isbn, libro.id))
         self.conn.commit()
 
     def delete_entry(self, id: int) -> None:
